@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyMate - Your Personal Financial Assistant</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --secondary-dark: #5a08a5;
+      --accent: #4cc9f0;
+      --success: #4ade80;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --shadow: 0 10px 25px rgba(0,0,0,0.1);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --instagram: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body { 
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%); 
+      overflow-x: hidden;
+      color: var(--light);
+      scroll-behavior: smooth;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(10px);
+      border: none;
+      margin-bottom: 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: var(--transition);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      color: white !important;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .navbar-brand::before {
+      content: "💰";
+      margin-right: 10px;
+      font-size: 28px;
+      -webkit-text-fill-color: initial;
+    }
+    
+    .navbar-nav li a {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 500;
+      transition: var(--transition);
+      border-radius: 8px;
+      margin: 5px 8px;
+      padding: 8px 16px !important;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .navbar-nav li a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: var(--transition);
+    }
+    
+    .navbar-nav li a:hover {
+      color: white !important;
+      transform: translateY(-2px);
+    }
+    
+    .navbar-nav li a:hover::before {
+      width: 100%;
+    }
+    
+    .navbar-nav li.active a {
+      color: white !important;
+      background: rgba(67, 97, 238, 0.15);
+    }
+    
+    .navbar-nav li.active a::before {
+      width: 100%;
+    }
+
+    /* Header */
+    .header-content {
+      padding: 120px 0 80px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(67, 97, 238, 0.2) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(114, 9, 183, 0.15) 0%, transparent 50%);
+      z-index: -1;
+    }
+    
+    .header-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .header-content p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+    
+    .header-badge {
+      display: inline-block;
+      background: rgba(67, 97, 238, 0.2);
+      color: var(--accent);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 30px;
+      border: 1px solid rgba(76, 201, 240, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Main Content */
+    .main-content {
+      min-height: calc(100vh - 200px);
+      padding: 40px 0;
+    }
+    
+    .page-section {
+      display: none;
+      padding: 20px 0;
+      animation: fadeInUp 0.6s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .page-section.active {
+      display: block;
+    }
+
+    /* Card */
+    .card {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin: 20px 0;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-5px);
+      border-color: rgba(67, 97, 238, 0.3);
+    }
+    
+    .card h2 {
+      color: white;
+      margin-top: 0;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    
+    .card h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      border-radius: 4px;
+    }
+
+    /* Back Button */
+    .back-btn {
+      margin: 10px 0 30px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: 2px solid var(--accent);
+      border-radius: 50px;
+      transition: var(--transition);
+      background: rgba(76, 201, 240, 0.1);
+    }
+    
+    .back-btn:hover {
+      color: white;
+      background-color: var(--accent);
+      text-decoration: none;
+      transform: translateX(-5px);
+      box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+    }
+
+    /* Split Bill */
+    .split-section {
+      margin-bottom: 30px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .split-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .split-section h3 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+    
+    .split-section h3::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-right: 12px;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    #friendList, #itemList {
+      margin: 20px 0;
+      max-height: 250px;
+      overflow-y: auto;
+      padding: 0;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.5);
+      padding: 10px;
+    }
+
+    #friendList li, #itemList div {
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    
+    #friendList li:hover, #itemList div:hover {
+      background: rgba(67, 97, 238, 0.15);
+      transform: translateX(5px);
+    }
+
+    /* Form Controls */
+    .form-control {
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 18px;
+      transition: var(--transition);
+      background: rgba(15, 23, 42, 0.5);
+      color: white;
+      font-weight: 500;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      background: rgba(15, 23, 42, 0.7);
+      color: white;
+    }
+    
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-group label {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .btn {
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #22c55e);
+      box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+    }
+    
+    .btn-success:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(74, 222, 128, 0.4);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger), #dc2626);
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+    
+    .btn-danger:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Result Table */
+    .result-table {
+      width: 100%;
+      margin-top: 25px;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .result-table th, .result-table td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .result-table th {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-weight: 600;
+    }
+    
+    .result-table tr {
+      background: rgba(30, 41, 59, 0.7);
+    }
+    
+    .result-table tr:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .result-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Team Section */
+    .team-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .team-member {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      margin-bottom: 25px;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .team-member::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .team-member:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(67, 97, 238, 0.3);
+    }
+    
+    .member-name {
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .member-nim {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .member-role {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 6px 15px;
+      background: rgba(67, 97, 238, 0.15);
+      border-radius: 20px;
+      display: inline-block;
+      border: 1px solid rgba(67, 97, 238, 0.3);
+    }
+
+    /* Home Action Button */
+    .home-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+      color: white;
+      padding: 16px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 40px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(114, 9, 183, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .home-action-btn::before {
+      content: "🧾";
+      margin-right: 12px;
+      font-size: 1.3rem;
+    }
+    
+    .home-action-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(114, 9, 183, 0.5);
+      color: white;
+      text-decoration: none;
+    }
+    
+    .home-action-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+    }
+    
+    .home-action-btn:hover::after {
+      transform: translateX(100%);
+      transition: transform 0.6s;
+    }
+
+    /* Instagram Section */
+    .instagram-container {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    
+    .instagram-header {
+      margin-bottom: 40px;
+    }
+    
+    .instagram-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--instagram);
+      margin-bottom: 30px;
+      font-size: 50px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(220, 39, 67, 0.4);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 10px 30px rgba(220, 39, 67, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(220, 39, 67, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 10px 30px rgba(220, 39, 67, 0.4); }
+    }
+    
+    .instagram-profile {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .instagram-profile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--instagram);
+    }
+    
+    .instagram-profile:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      background: var(--instagram);
+      padding: 6px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .profile-pic-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(30, 41, 59, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: white;
+      overflow: hidden;
+    }
+    
+    .profile-username {
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+      font-size: 2rem;
+      background: var(--instagram);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .profile-name {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: white;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 5px;
+    }
+    
+    .instagram-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--instagram);
+      color: white;
+      padding: 14px 35px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(220, 39, 67, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .instagram-btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    .instagram-btn:hover {
+      color: white;
+      text-decoration: none;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(220, 39, 67, 0.6);
+    }
+    
+    .instagram-description {
+      margin-top: 40px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    
+    .instagram-features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .feature {
+      background: rgba(67, 97, 238, 0.15);
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(67, 97, 238, 0.3);
+    }
+    
+    .feature i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .header-content {
+        padding: 100px 0 60px;
+      }
+      
+      .card {
+        padding: 25px 20px;
+      }
+      
+      .form-inline .form-group {
+        margin-bottom: 15px;
+        width: 100%;
+      }
+      
+      .form-inline .form-group input {
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .profile-username {
+        font-size: 1.7rem;
+      }
+      
+      .instagram-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+      
+      .profile-stats {
+        gap: 20px;
+      }
+      
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: var(--shadow-lg);
+      transform: translateX(150%);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 350px;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification.success {
+      background: rgba(74, 222, 128, 0.9);
+    }
+    
+    .notification.error {
+      background: rgba(239, 68, 68, 0.9);
+    }
+    
+    .notification.info {
+      background: rgba(67, 97, 238, 0.9);
+    }
+
+    /* Custom Checkbox */
+    .checkbox-container {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      padding: 8px 12px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    
+    .checkbox-container:hover {
+      background: rgba(67, 97, 238, 0.15);
+    }
+    
+    .checkbox-container input {
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+    
+    /* Floating Elements */
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(67, 97, 238, 0.1);
+      animation: float 20s infinite linear;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Elements -->
+  <div class="floating-elements">
+    <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%;"></div>
+    <div class="floating-element" style="width: 70px; height: 70px; top: 80%; left: 10%;"></div>
+    <div class="floating-element" style="width: 120px; height: 120px; top: 20%; left: 70%;"></div>
+  </div>
+
+  <!-- Notification Area -->
+  <div id="notificationArea"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#" onclick="showPage('home')">MoneyMate</a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="#" onclick="showPage('home')">Home</a></li>
+          <li><a href="#" onclick="showPage('split')">Split Bill</a></li>
+          <li><a href="#" onclick="showPage('about')">Tentang Kami</a></li>
+          <li><a href="#" onclick="showPage('contact')">Kontak Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container main-content">
+    <!-- Home Section -->
+    <section id="home" class="page-section active">
+      <div class="header-content">
+        <div class="header-badge">
+          <i class="fas fa-rocket"></i> Aplikasi Keuangan Modern
+        </div>
+        <h1>Kelola Keuangan dengan MoneyMate</h1>
+        <p>MoneyMate adalah aplikasi keuangan revolusioner yang dirancang untuk membantu Anda mengelola keuangan dengan lebih mudah, efisien, dan menyenangkan.</p>
+        <p>Dengan fitur utama Split Bill yang canggih, Anda dapat membagi tagihan dengan teman-teman secara adil, transparan, dan tanpa ribet.</p>
+        <a href="#" class="home-action-btn" onclick="showPage('split')">
+          Mulai Split Bill Sekarang
+        </a>
+      </div>
+    </section>
+
+    <!-- Split Bill Section -->
+    <section id="split" class="page-section">
+      <a class="back-btn" href="#" onclick="showPage('home')" title="Kembali ke Home">
+        <i class="fas fa-arrow-left"></i> Kembali ke Home
+      </a>
+      
+      <div class="card">
+        <h2><i class="fas fa-receipt"></i> Split Bill Cerdas</h2>
+        
+        <div class="split-section">
+          <h3>1. Tambah Teman</h3>
+          <p class="text-muted">Masukkan nama teman yang ikut serta dalam pembagian tagihan</p>
+          <div class="form-inline">
+            <div class="form-group" style="flex: 1;">
+              <input type="text" class="form-control" id="friendInput" placeholder="Nama teman" />
+            </div>
+            <button class="btn btn-primary" onclick="addFriend()">
+              <i class="fas fa-user-plus"></i> Tambah
+            </button>
+          </div>
+          <ul id="friendList"></ul>
+        </div>
+        
+        <div class="split-section">
+          <h3>2. Tambah Item Struk</h3>
+          <p class="text-muted">Masukkan item-item yang ada di struk beserta harga dan jumlahnya</p>
+          <div class="form-inline" style="margin-bottom: 15px;">
+            <div class="form-group">
+              <input type="text" class="form-control" id="itemName" placeholder="Nama item" />
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" id="itemQty" placeholder="Jumlah" min="1" />
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="itemPrice" placeholder="Harga per item" oninput="formatInput(this)" />
+            </div>
+            <button class="btn btn-primary" onclick="addItem()">
+              <i class="fas fa-cart-plus"></i> Tambah Item
+            </button>
+          </div>
+          <div id="itemList"></div>
+        </div>
+        
+        <div class="split-section">
+          <h3>3. Pajak, Service & Diskon</h3>
+          <p class="text-muted">Atur persentase pajak, biaya service, dan diskon jika ada</p>
+          <div class="form-inline">
+            <div class="form-group">
+              <label>Pajak (%)</label>
+              <input type="number" class="form-control" id="tax" value="10" min="0" max="100" />
+            </div>
+            <div class="form-group">
+              <label>Service (%)</label>
+              <input type="number" class="form-control" id="service" value="5" min="0" max="100" />
+            </div>
+            <div class="form-group">
+              <label>Diskon (%)</label>
+              <input type="number" class="form-control" id="discount" value="0" min="0" max="100" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="split-section">
+          <button class="btn btn-success btn-lg" onclick="calculateSplit()">
+            <i class="fas fa-calculator"></i> Hitung Split Bill
+          </button>
+          <div id="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+     <section id="about" class="page-section">
+      <a class="back-btn" href="#" onclick="showPage('home')" title="Kembali ke Home">
+      <i class="fas fa-arrow-left"></i> Kembali ke Home
+      </a>
+  
+  <div class="card">
+    <h2><i class="fas fa-info-circle"></i> Tentang MoneyMate</h2>
+    <p>MoneyMate adalah asisten keuangan modern yang dirancang untuk membantu kamu mengatur keuangan sehari-hari dengan cara yang lebih mudah, efisien, dan menyenangkan.</p>
+    <p>Dibangun dengan teknologi terkini, MoneyMate hadir dengan antarmuka yang intuitif dan pengalaman pengguna yang luar biasa.</p>
+    
+    <div class="team-section">
+      <h3>Tim Pengembang MoneyMate</h3>
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <div class="team-member">
+            <div class="member-photo">
+               <img src="path/to/photo.jpg" alt="Nama Anggota" class="real-photo">
+              </div>
+              </div>
+            </div>
+            <div class="member-name">A Muh Dzakwan S</div>
+            <div class="member-nim">230112502032</div>
+            <div class="member-role">Full Stack Developer</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-member">
+            <div class="member-photo">
+              <div class="photo-placeholder">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <div class="member-name">Meisya Anastasya</div>
+            <div class="member-nim">230112500032</div>
+            <div class="member-role">UI/UX Designer</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-member">
+            <div class="member-photo">
+              <div class="photo-placeholder">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <div class="member-name">Nur Fadilla</div>
+            <div class="member-nim">230112501008</div>
+            <div class="member-role">Frontend Developer</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="team-member">
+            <div class="member-photo">
+              <div class="photo-placeholder">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <div class="member-name">Riby Fitrhriyyah Shalihati</div>
+            <div class="member-nim">230112501024</div>
+            <div class="member-role">Project Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section">
+      <a class="back-btn" href="#" onclick="showPage('home')" title="Kembali ke Home">
+        <i class="fas fa-arrow-left"></i> Kembali ke Home
+      </a>
+      
+      <div class="card">
+        <h2><i class="fab fa-instagram"></i> Kontak Instagram MoneyMate</h2>
+        
+        <div class="instagram-container">
+          <div class="instagram-header">
+            <div class="instagram-icon">
+              <i class="fab fa-instagram"></i>
+            </div>
+            <h3>Ikuti Kami di Instagram</h3>
+            <p>Dapatkan update terbaru, tips keuangan, promo menarik, dan informasi eksklusif lainnya!</p>
+          </div>
+          
+          <div class="instagram-profile">
+            <div class="profile-pic">
+              <div class="profile-pic-inner">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+            </div>
+            <div class="profile-username">@moneymate.id</div>
+            <div class="profile-name">MoneyMate - Your Financial Assistant</div>
+            
+            <div class="profile-stats">
+              <div class="stat">
+                <div class="stat-value">1.2K</div>
+                <div class="stat-label">Posts</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">15.7K</div>
+                <div class="stat-label">Followers</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">327</div>
+                <div class="stat-label">Following</div>
+              </div>
+            </div>
+            
+            <a href="#" class="instagram-btn" onclick="openInstagram()">
+              <i class="fab fa-instagram"></i> Follow di Instagram
+            </a>
+          </div>
+          
+          <div class="instagram-description">
+            <p>Dengan mengikuti <strong>@moneymate.id</strong>, Anda akan mendapatkan:</p>
+            <div class="instagram-features">
+              <div class="feature"><i class="fas fa-lightbulb"></i> Tips keuangan harian</div>
+              <div class="feature"><i class="fas fa-bell"></i> Update fitur baru</div>
+              <div class="feature"><i class="fas fa-play-circle"></i> Tutorial penggunaan</div>
+              <div class="feature"><i class="fas fa-question-circle"></i> Q&A seputar keuangan</div>
+              <div class="feature"><i class="fas fa-gift"></i> Promo dan giveaway</div>
+              <div class="feature"><i class="fas fa-chart-line"></i> Insight finansial</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bootstrap & jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script>
+    // Navigasi halaman
+    function showPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Update navbar active state
+      document.querySelectorAll('.navbar-nav li').forEach(li => {
+        li.classList.remove('active');
+      });
+      document.querySelector(`.navbar-nav a[onclick="showPage('${pageId}')"]`).parentElement.classList.add('active');
+      
+      // Scroll ke atas
+      window.scrollTo(0, 0);
+      
+      if (window.innerWidth < 768) {
+        $('#navbar-collapse').collapse('hide');
+      }
+    }
+
+    // Format angka
+    const formatRupiah = n => {
+      if(typeof n !== "number") n = Number(n) || 0;
+      return "Rp" + n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+    
+    const formatInput = el => el.value = el.value.replace(/\D/g,"").replace(/\B(?=(\d{3})+(?!\d))/g,".");
+    
+    const parseNumber = str => parseInt(str.replace(/\./g,"")) || 0;
+
+    // Notifikasi
+    function showNotification(message, type = 'info') {
+      const notificationArea = document.getElementById('notificationArea');
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      notificationArea.appendChild(notification);
+      
+      // Tampilkan notifikasi
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 100);
+      
+      // Sembunyikan setelah 4 detik
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          notificationArea.removeChild(notification);
+        }, 400);
+      }, 4000);
+    }
+
+    // Split Bill
+    let friends = JSON.parse(localStorage.getItem("friendsData")) || [];
+    let items = JSON.parse(localStorage.getItem("itemsData")) || [];
+
+    function saveSplitData(){
+      localStorage.setItem("friendsData", JSON.stringify(friends));
+      localStorage.setItem("itemsData", JSON.stringify(items));
+    }
+
+    function addFriend(){
+      const name = document.getElementById("friendInput").value.trim();
+      if(!name){
+        showNotification("Nama teman tidak boleh kosong!", "error");
+        return;
+      }
+      if(friends.includes(name)){
+        showNotification("Teman sudah ada!", "error");
+        return;
+      }
+      friends.push(name);
+      document.getElementById("friendInput").value = "";
+      saveSplitData();
+      renderFriends();
+      renderItems();
+      showNotification(`Teman "${name}" berhasil ditambahkan!`, "success");
+    }
+
+    const renderFriends = () => {
+      const friendList = document.getElementById("friendList");
+      if (friends.length === 0) {
+        friendList.innerHTML = '<li style="text-align: center; color: rgba(255,255,255,0.5); padding: 20px;">Belum ada teman yang ditambahkan</li>';
+      } else {
+        friendList.innerHTML = friends.map(f => `
+          <li>
+            <span><i class="fas fa-user"></i> ${f}</span>
+            <button class="btn btn-xs btn-danger" onclick="removeFriend('${f}')">
+              <i class="fas fa-times"></i>
+            </button>
+          </li>
+        `).join("");
+      }
+    };
+
+    function removeFriend(name) {
+      if (confirm(`Apakah Anda yakin ingin menghapus ${name}?`)) {
+        friends = friends.filter(f => f !== name);
+        items.forEach(item => {
+          item.buyers = item.buyers.filter(b => b !== name);
+        });
+        saveSplitData();
+        renderFriends();
+        renderItems();
+        showNotification(`Teman "${name}" berhasil dihapus!`, "success");
+      }
+    }
+
+    function addItem(){
+      const name = document.getElementById("itemName").value.trim();
+      const qty = parseInt(document.getElementById("itemQty").value);
+      const price = parseNumber(document.getElementById("itemPrice").value);
+      
+      if(!name || qty <= 0 || price <= 0){
+        showNotification("Isi data item dengan benar! Nama, jumlah, dan harga harus diisi.", "error");
+        return;
+      }
+      
+      items.push({name, qty, price, buyers: []});
+      ["itemName","itemQty","itemPrice"].forEach(id => document.getElementById(id).value = "");
+      saveSplitData();
+      renderItems();
+      showNotification(`Item "${name}" berhasil ditambahkan!`, "success");
+    }
+
+    function renderItems(){
+      const itemList = document.getElementById("itemList");
+      if (items.length === 0) {
+        itemList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 20px;">Belum ada item yang ditambahkan</div>';
+      } else {
+        itemList.innerHTML = "";
+        items.forEach((item, i) => {
+          let checks = friends.map(f => 
+            `<label class="checkbox-container"><input type="checkbox" onchange="toggleBuyer(${i},'${f}')" ${item.buyers.includes(f) ? "checked" : ""}> <i class="fas fa-user"></i> ${f}</label>`
+          ).join("");
+          
+          itemList.innerHTML += `
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span><strong><i class="fas fa-tag"></i> ${item.qty}x ${item.name}</strong> (${formatRupiah(item.price)})</span>
+                <button class="btn btn-xs btn-danger" onclick="removeItem(${i})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              <div style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">Dibeli oleh:</div>
+              <div style="margin-top: 8px;">${checks}</div>
+            </div>
+          `;
+        });
+      }
+    }
+
+    function removeItem(index) {
+      if (confirm(`Apakah Anda yakin ingin menghapus item "${items[index].name}"?`)) {
+        items.splice(index, 1);
+        saveSplitData();
+        renderItems();
+        showNotification("Item berhasil dihapus!", "success");
+      }
+    }
+
+    const toggleBuyer = (i, f) => {
+      let it = items[i];
+      if(it.buyers.includes(f)){
+        it.buyers = it.buyers.filter(x => x !== f);
+      } else {
+        it.buyers.push(f);
+      }
+      saveSplitData();
+    };
+
+    function calculateSplit(){
+      if(friends.length === 0){
+        showNotification("Tambahkan teman terlebih dahulu!", "error");
+        return;
+      }
+      if(items.length === 0){
+        showNotification("Tambahkan item terlebih dahulu!", "error");
+        return;
+      }
+      
+      // Validasi apakah setiap item memiliki pembeli
+      const itemsWithoutBuyers = items.filter(item => item.buyers.length === 0);
+      if (itemsWithoutBuyers.length > 0) {
+        showNotification(`Ada ${itemsWithoutBuyers.length} item yang belum memiliki pembeli!`, "error");
+        return;
+      }
+      
+      let subtotal = 0, bills = {};
+      friends.forEach(f => bills[f] = 0);
+      
+      items.forEach(it => {
+        let total = it.qty * it.price;
+        subtotal += total;
+        if(it.buyers.length){
+          let share = total / it.buyers.length;
+          it.buyers.forEach(b => bills[b] += share);
+        }
+      });
+      
+      const tax = (document.getElementById("tax").value / 100) * subtotal;
+      const service = (document.getElementById("service").value / 100) * subtotal;
+      const discount = (document.getElementById("discount").value / 100) * subtotal;
+      let total = subtotal + tax + service - discount;
+      
+      // Buat tabel hasil
+      let tableHtml = `
+        <h3 style="margin-top: 30px; color: var(--accent);"><i class="fas fa-chart-pie"></i> Hasil Split Bill</h3>
+        <table class="table table-bordered result-table">
+          <tr>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+          </tr>
+          <tr>
+            <td><i class="fas fa-receipt"></i> Subtotal</td>
+            <td>${formatRupiah(subtotal)}</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-percentage"></i> Pajak (${document.getElementById("tax").value}%)</td>
+            <td>${formatRupiah(tax)}</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-concierge-bell"></i> Service (${document.getElementById("service").value}%)</td>
+            <td>${formatRupiah(service)}</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-tag"></i> Diskon (${document.getElementById("discount").value}%)</td>
+            <td>${formatRupiah(discount)}</td>
+          </tr>
+          <tr style="font-weight:bold; background: rgba(67, 97, 238, 0.2);">
+            <td><i class="fas fa-file-invoice-dollar"></i> Total</td>
+            <td>${formatRupiah(total)}</td>
+          </tr>
+        </table>
+        
+        <h4 style="margin-top: 30px; color: var(--accent);"><i class="fas fa-users"></i> Pembagian Per Orang</h4>
+        <table class="table table-bordered result-table">
+          <tr>
+            <th>Nama</th>
+            <th>Jumlah Bayar</th>
+          </tr>
+      `;
+      
+      for(const [f, a] of Object.entries(bills)){
+        const amount = Math.round(a + (a / subtotal) * (tax + service - discount));
+        tableHtml += `
+          <tr>
+            <td><i class="fas fa-user"></i> ${f}</td>
+            <td><strong>${formatRupiah(amount)}</strong></td>
+          </tr>
+        `;
+      }
+      
+      tableHtml += `</table>`;
+      document.getElementById("result").innerHTML = tableHtml;
+      
+      // Scroll ke hasil
+      document.getElementById("result").scrollIntoView({ behavior: 'smooth' });
+      
+      showNotification("Split bill berhasil dihitung!", "success");
+    }
+
+    // Fungsi untuk membuka Instagram
+    function openInstagram() {
+      showNotification('Membuka Instagram @moneymate.id', 'info');
+      // Simulasi membuka Instagram (dalam implementasi nyata, ini akan membuka link Instagram)
+      setTimeout(() => {
+        alert('Dalam aplikasi nyata, ini akan membuka Instagram @moneymate.id');
+      }, 500);
+    }
+
+    // Inisialisasi
+    document.addEventListener('DOMContentLoaded', function() {
+      renderFriends();
+      renderItems();
+      
+      // Tambahkan event listener untuk Enter key
+      document.getElementById('friendInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          addFriend();
+        }
+      });
+      
+      document.getElementById('itemName').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          addItem();
+        }
+      });
+      
+      // Animasi floating elements
+      const floatingElements = document.querySelectorAll('.floating-element');
+      floatingElements.forEach((el, index) => {
+        el.style.animationDelay = `${index * 2}s`;
+      });
+    });
+  </script>
+</body>
+</html>
